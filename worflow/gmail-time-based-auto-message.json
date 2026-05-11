@@ -1,0 +1,283 @@
+{
+  "name": "first-practice",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        -64
+      ],
+      "id": "4cbd05e9-e8c2-44a2-8a07-ce7fcdd8211f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {
+          "timezone": "Asia/Seoul"
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -64
+      ],
+      "id": "5481dbd7-8367-42f6-a84b-5d58aaaa65eb",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c68365c0-5904-4f26-ab1e-02502df5a330",
+              "name": "currentDate",
+              "value": "={{ $json.currentDate }}",
+              "type": "string"
+            },
+            {
+              "id": "9b862a52-7cd8-4eed-8b85-620faed9170e",
+              "name": "currentHour",
+              "value": "={{ DateTime.fromISO($node[\"Date & Time\"].json.currentDate).setZone('Asia/Seoul').hour }}",
+              "type": "string"
+            },
+            {
+              "id": "15cbc6be-b7c7-4814-afe6-bbd362c59c55",
+              "name": "timeOfDay",
+              "value": "={{ DateTime.fromISO($node[\"Date & Time\"].json.currentDate).setZone('Asia/Seoul').hour < 12 ? \"오전\" : \"오후\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        -64
+      ],
+      "id": "908f39b9-9c40-43b7-a9b6-f678cb6e4453",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "45bc17c5-c7b4-4116-995f-bd6af73aed2c",
+              "leftValue": "={{ $json.timeOfDay }}",
+              "rightValue": "오전",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        352,
+        -64
+      ],
+      "id": "62e6a0e7-5bf4-4253-ac18-aea7534f40d4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed53a549-b5ee-420e-9ee0-f4d3c44632fb",
+              "name": "message",
+              "value": "즐거운 아침입니다! 오늘도 즐거운 하루 보내세요.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        -112
+      ],
+      "id": "677ca7ba-c28e-4e88-9932-799b4be5e170",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8e814059-e99d-4e51-9733-edc4bc766e8b",
+              "name": "message",
+              "value": "좋은 오후이다! 남은 하루도 화이팅 합시다!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        32
+      ],
+      "id": "3e061edb-1ab3-4788-b3c6-9e05d4060a29",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "sendTo": "sallyinner59@gmail.com",
+        "subject": "={{ $('Edit Fields').item.json.timeOfDay }} 인사메시지",
+        "message": "={{ $json.message }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        32
+      ],
+      "id": "ebe5b583-1715-4e9c-85c5-2b59655c32d5",
+      "name": "Send a message",
+      "webhookId": "81a7ec4b-0cd5-4613-afef-d71c761d69e2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GrehoPgzLXnkaxJI",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "sallyinner59@gmail.com",
+        "subject": "={{ $('Edit Fields').item.json.timeOfDay }} 인사메시지",
+        "message": "={{ $json.message }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -112
+      ],
+      "id": "7d4dc7a8-3b8b-4d5b-89e8-4d5afe6baf7b",
+      "name": "Send a message1",
+      "webhookId": "81a7ec4b-0cd5-4613-afef-d71c761d69e2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GrehoPgzLXnkaxJI",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6600ae28-be1b-4c1c-ad47-99bd896cc1c4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
+  },
+  "id": "r7DTsYZSTKEJI5MD",
+  "tags": []
+}
