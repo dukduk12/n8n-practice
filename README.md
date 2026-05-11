@@ -19,6 +19,12 @@ This workflow is manually triggered and determines the current time in the `Asia
    - **PM Branch**: Sets the message to `"좋은 오후이다! 남은 하루도 화이팅 합시다!"` (Good afternoon! Let's do our best for the rest of the day!)
 6. **Gmail Node**: Sends the crafted email to `sallyinner59@gmail.com` with the subject formatted as `[오전/오후] 인사메시지`.
 
+## 📬 Execution Result
+
+Here is an example of the email received when the workflow runs successfully:
+
+![Result Email](docs/result_email.png)
+
 ## 🛠 Prerequisites
 
 - An active **n8n** instance.
